@@ -128,11 +128,11 @@ test('verify window handling', async({browser})=>{
 
 test.only('verify text equal and then click', async({page})=>{
 
-    const email = "anshika@gmail.com";
+    const email = "arjit.kathuria19@gmail.com";
 
     await page.goto("https://rahulshettyacademy.com/client");
     await page.locator("#userEmail").fill(email);
-    await page.locator("#userPassword").type("Iamking@000");
+    await page.locator("#userPassword").type("Test@123");
     await page.locator("[value='Login']").click();
     await page.waitForLoadState('networkidle');
     const titles = await page.locator(".card-body b").allTextContents();
