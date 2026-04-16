@@ -46,6 +46,15 @@ test('verify order and mock it', async({page})=> {
     // route this with fake response
     // route take 2 argument 1st what you want to route 2nd how you want to route
 
+
+    // fulfill use to complete mocka behaviour and pass the response you want to pass to browser
+
+// 👉 Use when you want:
+
+// No backend call ❌
+// Full control of response ✅
+
+
     await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6673ca6eae2afd4c0b056b63",
     async route=>
         {
@@ -73,6 +82,14 @@ test('verify order and mock it', async({page})=> {
 
 })
 
+// 🔴 3. When to use route.abort()
+
+// 👉 Use when you want:
+
+// Block request completely ❌
+// ✅ Example
+// await page.route('**/*.png', route => route.abort());
+
 test('@QW Security test request intercept', async ({ page }) => {
  
     //login and reach orders page
@@ -85,6 +102,7 @@ test('@QW Security test request intercept', async ({ page }) => {
  
     await page.locator("button[routerlink*='myorders']").click();
     // ----interceptpt the request with wrong order id and see behaviour----------
+    // continue with same api with little modification in url and see the behaviour
     await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=*",
         route => route.continue({ url: 'https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=621661f884b053f6765465b6' }))
     await page.locator("button:has-text('View')").first().click();
@@ -139,4 +157,40 @@ test.only('Route abort', async ({ page }) => {
  
 })
  
+
+// If asked:
+
+// 👉 “When will you use continue vs fulfill?”
+
+// Say:
+
+// “I use route.continue() when I want the request to hit the real backend but need to modify it,
+//  like adding headers. I use route.fulfill() when I want to completely mock the API response and avoid backend dependency.”
+
+
+
+test("check api usage with mock fulfil", async(page)=> {
+
+await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6673ca6eae2afd4c0b056b63",
+    (route)=>{
+        route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({data:[],message:"No Orders"})
+        })
+    }
+)
+
+
+await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6673ca6eae2afd4c0b056b63",
+    (route)=>{
+       const request = route.request();
+        route.continue({
+            url: "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6673ca6eae2afd4c0b056b63"
+        })
+    }
+)
+
+})
+
 

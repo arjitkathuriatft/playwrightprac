@@ -45,6 +45,10 @@ test('verify dropdown and pause to debug', async({page})=>{
 
     // pass value here in select Option 
     await page.locator('select.form-control').selectOption('consult')
+
+    // await page.locator('#dropdown-id').selectOption({ label: 'Option Text' });
+// await page.locator('#dropdown-id').selectOption({ value: 'option1' });
+// await page.locator('#dropdown-id').selectOption({ index: 2 });
     // await page.pause();
     await page.locator('checkmark').nth(1).click();
 

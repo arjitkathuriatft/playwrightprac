@@ -1,9 +1,11 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 
-
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -15,6 +17,7 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL;
  */
 module.exports = defineConfig({
 
+  globalSetup: "./globalSetup.js",
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -39,10 +42,22 @@ module.exports = defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    { name: "setup", testMatch: "./globalSetup.js" },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+
+    ...(process.env.ENABLE_FIREFOX === "true"
+      ? [
+          {
+            name: "firefox",
+            use: {
+              ...devices["Desktop Firefox"],
+            },
+          },
+        ]
+      : []),
 
     // {
     //   name: 'firefox',

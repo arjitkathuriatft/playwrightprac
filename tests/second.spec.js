@@ -4,6 +4,8 @@ test(' second interaction', async({page})=> {
 
     await page.goto('https://rahulshettyacademy.com/angularpractice/')
     // --- if you can click with label text then you can click here
+    // In UI
+    // <label class="form-check-label" for="exampleCheck1">Check me out if you Love IceCreams!</label>
     await page.getByLabel("Check me out if you Love IceCreams!").click();
     // get element by placeholder
     await page.getByPlaceholder("Password").fill("aaaa");
@@ -71,6 +73,17 @@ test(' second interaction', async({page})=> {
         // =====mouse hover
         await page.locator('#mousehover').hover();
 
+        // await page.locator('#mousehover').dblclick()
+        // await page.locator('#btn').click({ button: 'right' });
+        // await page.dragAndDrop('#source', '#target')
+
+         // 👉 Used when dragAndDrop() doesn’t work
+        // await page.mouse.down()
+        // await page.mouse.move(300, 300)
+        // await page.mouse.up()
+
+
+
         // --------Frame switch--------
         const framePage = page.frameLocator('#courses-iframe')
         // -----: visible is because there are multiple locator and out of them it is visible
@@ -78,9 +91,13 @@ test(' second interaction', async({page})=> {
         await framePage.locator("li a[href='lifetime-access']:visible").click();
 
 
+        // to upload files in playwright
+    //    await page.locator('input[type="file"]').setInputFiles('test.pdf');
 
 
-
+//     await context.addCookies([
+//   { name: 'token', value: '12345', domain: 'example.com', path: '/' }
+// ]);
     
     })
 

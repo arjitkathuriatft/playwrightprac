@@ -13,3 +13,13 @@
 // if you get error allure not found install npm install -g allure-commandline --save-dev
 // it will create allure-report
 // to open report -> allure open ./allure-report
+
+// or 
+
+// You can write in playwright.config.js file like this
+// export default defineConfig({
+//   reporter: [
+//     ['line'],
+//     ['allure-playwright']
+//   ],
+// });
